@@ -14,7 +14,7 @@ namespace ChatApp.ViewModels
 {
     public class ViewModel : INotifyPropertyChanged
     {
-        //Initializing resource dictionary file
+       
         private readonly ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ChatApp;component/Assets/icons.xaml", UriKind.RelativeOrAbsolute)) as ResourceDictionary;
 
         #region MainWindow
@@ -51,20 +51,20 @@ namespace ChatApp.ViewModels
             set
             {
 
-                //checked if value is different
+               
                 if (mSearchText == value)
                     return;
 
-                //Update Value
+              
                 mSearchText = value;
 
-                //if search text is empty restore messages
+              
                 if (string.IsNullOrEmpty(SearchText))
                     Search();
             }
         }
 
-        //This is our list containing the Window Options..
+       
         private ObservableCollection<MoreOptionsMenu> _windowMoreOptionsMenuList;
         public ObservableCollection<MoreOptionsMenu> WindowMoreOptionsMenuList
         {
@@ -78,7 +78,7 @@ namespace ChatApp.ViewModels
             }
         }
 
-        //This is our list containing the Attachment Menu Options..
+      
         private ObservableCollection<MoreOptionsMenu> _attachmentOptionsMenuList;
         public ObservableCollection<MoreOptionsMenu> AttachmentOptionsMenuList
         {
@@ -126,7 +126,7 @@ namespace ChatApp.ViewModels
         }
         void ConversationScreenMoreOptionsMenu()
         {
-            //To populate menu items for conversation screen options list..
+           
             WindowMoreOptionsMenuList = new ObservableCollection<MoreOptionsMenu>()
             {
                 new MoreOptionsMenu()
@@ -164,7 +164,7 @@ namespace ChatApp.ViewModels
         }
         void AttachmentOptionsMenu()
         {
-            //To populate menu items for Attachment Menu options list..
+           
             AttachmentOptionsMenuList = new ObservableCollection<MoreOptionsMenu>()
             {
                 new MoreOptionsMenu()
@@ -230,11 +230,11 @@ namespace ChatApp.ViewModels
 
         public void Search()
         {
-            //To avoid re searching same text again
+           
             if ((string.IsNullOrEmpty(LastSearchText) && string.IsNullOrEmpty(SearchText)) || string.Equals(LastSearchText, SearchText))
                 return;
 
-            //If searchbox is empty or chats is null pr chat cound less than 0
+            
             if (string.IsNullOrEmpty(SearchText) || Chats == null || Chats.Count <= 0)
             {
                 FilteredChats = new ObservableCollection<ChatListData>(Chats ?? Enumerable.Empty<ChatListData>());
@@ -242,15 +242,13 @@ namespace ChatApp.ViewModels
 
                 FilteredPinnedChats = new ObservableCollection<ChatListData>(PinnedChats ?? Enumerable.Empty<ChatListData>());
                 OnPropertyChanged("FilteredPinnedChats");
-                //Update Last search Text
+               
                 LastSearchText = SearchText;
 
                 return;
             }
 
-            //Now, to find all chats that contain the text in our search box
-
-            //if that chat is in Normal Unpinned Chat list find there...
+          
 
 
             FilteredChats = new ObservableCollection<ChatListData>(
@@ -261,7 +259,7 @@ namespace ChatApp.ViewModels
                     ));
             OnPropertyChanged("FilteredChats");
 
-            //else if not found in Normal Unpinned Chat list, find in pinned chats list
+          
             FilteredPinnedChats = new ObservableCollection<ChatListData>(
             PinnedChats.Where(
                 pinnedchat => pinnedchat.ContactName.ToLower().Contains(SearchText) //if ContactName Contains SearchText then add it in filtered chat list
@@ -271,7 +269,7 @@ namespace ChatApp.ViewModels
 
             OnPropertyChanged("FilteredPinnedChats");
 
-            //Update Last search Text
+           
             LastSearchText = SearchText;
         }
         #endregion
@@ -321,9 +319,7 @@ namespace ChatApp.ViewModels
                 _attachmentOptionsCommand = value;
             }
         }
-        /// <summary>
-        /// Search Command
-        /// </summary>
+       
         protected ICommand _openSearchCommand;
         public ICommand OpenSearchCommand
         {
@@ -339,9 +335,7 @@ namespace ChatApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Clear Search Command
-        /// </summary>
+       
         protected ICommand _clearSearchCommand;
         public ICommand ClearSearchCommand
         {
@@ -357,9 +351,7 @@ namespace ChatApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Close Search Command
-        /// </summary>
+       
         protected ICommand _closeSearchCommand;
         public ICommand CloseSearchCommand
         {
@@ -375,9 +367,7 @@ namespace ChatApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Search Command
-        /// </summary>
+      
         protected ICommand _searchCommand;
         public ICommand SearchCommand
         {
@@ -404,10 +394,10 @@ namespace ChatApp.ViewModels
         #region Logics
         void LoadStatusThumbs()
         {
-            //Lets bind our collection to itemscontrol
+           
             statusThumbsCollection = new ObservableCollection<StatusDataModel>()
             {
-                //Since we want to keep first status blank for the user to add own status
+               
             new StatusDataModel
             {
                 IsMeAddStatus=true
@@ -457,14 +447,14 @@ namespace ChatApp.ViewModels
             get => mChats;
             set
             {
-                //To Change the list
+                
                 if (mChats == value)
                     return;
 
-                //To Update the list
+                
                 mChats = value;
 
-                //Updating filtered chats to match
+                
                 FilteredChats = new ObservableCollection<ChatListData>(mChats);
                 OnPropertyChanged("Chats");
                 OnPropertyChanged("FilteredChats");
@@ -475,14 +465,14 @@ namespace ChatApp.ViewModels
             get => mPinnedChats;
             set
             {
-                //To Change the list
+              
                 if (mPinnedChats == value)
                     return;
 
-                //To Update the list
+              
                 mPinnedChats = value;
 
-                //Updating filtered chats to match
+               
                 FilteredPinnedChats = new ObservableCollection<ChatListData>(mPinnedChats);
                 OnPropertyChanged("PinnedChats");
                 OnPropertyChanged("FilteredPinnedChats");
@@ -499,7 +489,7 @@ namespace ChatApp.ViewModels
             }
         }
 
-        //Filtering Chats & Pinned Chats
+      
         public ObservableCollection<ChatListData> FilteredChats { get; set; }
         public ObservableCollection<ChatListData> FilteredPinnedChats { get; set; }
 
@@ -509,21 +499,21 @@ namespace ChatApp.ViewModels
         #region Logics
         void LoadChats()
         {
-            //Loading data from Database
+           
             if (Chats == null)
                 Chats = new ObservableCollection<ChatListData>();
 
-            //Opening Sql Connection
+           
             connection.Open();
 
-            //Temporary Collection
+           
             ObservableCollection<ChatListData> temp = new ObservableCollection<ChatListData>();
 
             using (SqlCommand command = new SqlCommand("select * from contacts p left join (select a.*, row_number() over(partition by a.contactname order by a.id desc) as seqnum from conversations a ) a on a.ContactName = p.contactname and a.seqnum = 1 order by a.Id desc", connection))
             {
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    //To avoid duplication
+                   
                     string lastItem = string.Empty;
                     string newItem = string.Empty;
 
@@ -532,26 +522,25 @@ namespace ChatApp.ViewModels
                         string time = string.Empty;
                         string lastmessage = string.Empty;
 
-                        //if the last message is received from sender than update time & lastmessage variables..
+                       
                         if (!string.IsNullOrEmpty(reader["MsgReceivedOn"].ToString()))
                         {
                             time = Convert.ToDateTime(reader["MsgReceivedOn"].ToString()).ToString("ddd hh:mm tt");
                             lastmessage = reader["ReceivedMsgs"].ToString();
                         }
 
-                        //else if we have sent last message then update accordingly...
+                       
                         if (!string.IsNullOrEmpty(reader["MsgSentOn"].ToString()))
                         {
                             time = Convert.ToDateTime(reader["MsgSentOn"].ToString()).ToString("ddd hh:mm tt");
                             lastmessage = reader["SentMsgs"].ToString();
                         }
 
-                        //if the chat is new or we are starting new conversation which means there will be no previous sent or received msgs in that case..
-                        //show 'Start new conversation' message...
+                        
                         if (string.IsNullOrEmpty(lastmessage))
                             lastmessage = "Start new conversation";
 
-                        //Update data in model...
+                       
                         ChatListData chat = new ChatListData()
                         {
                             ContactPhoto = (byte[])reader["photo"],
@@ -560,10 +549,10 @@ namespace ChatApp.ViewModels
                             LastMessageTime = time
                         };
 
-                        //Update 
+                       
                         newItem = reader["contactname"].ToString();
 
-                        //if last added chat contact is not same as new one then only add..
+                       
                         if (lastItem != newItem)
                             temp.Add(chat);
 
@@ -571,55 +560,28 @@ namespace ChatApp.ViewModels
                     }
                 }
             }
-            //Transfer data
+          
             Chats = temp;
 
-            //Update
+          
             OnPropertyChanged("Chats");
-                //Chats = new ObservableCollection<ChatListData>()
-                //{
-                //    new ChatListData{
-                //    ContactName = "Billy",
-                //    ContactPhoto = new Uri("/assets/6.jpg", UriKind.RelativeOrAbsolute),
-                //    Message="Hey, What's Up?",
-                //    LastMessageTime="Tue, 12:58 PM",
-                //    ChatIsSelected=true
-                //    },
-                //    new ChatListData{
-                //    ContactName = "Mike",
-                //    ContactPhoto = new Uri("/assets/1.png", UriKind.RelativeOrAbsolute),
-                //    Message="Check the mail.",
-                //    LastMessageTime="Mon, 10:07 AM"
-                //    },
-                //    new ChatListData{
-                //    ContactName = "Steve",
-                //    ContactPhoto = new Uri("/assets/7.png", UriKind.RelativeOrAbsolute),
-                //    Message="Yes, we had fun.",
-                //    LastMessageTime="Tue, 08:10 AM"
-                //    },
-                //    new ChatListData{
-                //    ContactName = "John",
-                //    ContactPhoto = new Uri("/assets/8.jpg", UriKind.RelativeOrAbsolute),
-                //    Message="What about you?",
-                //    LastMessageTime="Tue, 01:00 PM"
-                //    }
-                //};
+              
                 OnPropertyChanged();
         }
         #endregion
 
         #region Commands
-        //To get the ContactName of selected chat so that we can open corresponding conversation
+        
         protected ICommand _getSelectedChatCommand;
         public ICommand GetSelectedChatCommand => _getSelectedChatCommand ??= new RelayCommand(parameter =>
         {
             if (parameter is ChatListData v)
             {
-                //getting contactname from selected chat
+                
                 ContactName = v.ContactName;
                 OnPropertyChanged("ContactName");
 
-                //getting contactphoto from selected chat
+             
                 ContactPhoto = v.ContactPhoto;
                 OnPropertyChanged("ContactPhoto");
 
@@ -627,7 +589,7 @@ namespace ChatApp.ViewModels
             }
         });
 
-        //To Pin Chat on Pin Button Click
+      
         protected ICommand _pinChatCommand;
         public ICommand PinChatCommand => _pinChatCommand ??= new RelayCommand(parameter =>
         {
@@ -635,7 +597,7 @@ namespace ChatApp.ViewModels
             {
                 if (!FilteredPinnedChats.Contains(v))
                 {
-                    //Add selected chat to pin chat
+                  
                     PinnedChats.Add(v);
                     FilteredPinnedChats.Add(v);
                     OnPropertyChanged("PinnedChats");
@@ -643,8 +605,7 @@ namespace ChatApp.ViewModels
                     v.ChatIsPinned = true;
 
 
-                    //Remove selected chat from all chats / unpinned chats
-                    //Store position of chat before pinning so that when we unpin or unarchive we get it on same original position...
+                   
                     ChatPosition = Chats.IndexOf(v);
                     Chats.Remove(v);
                     FilteredChats.Remove(v);
@@ -652,8 +613,7 @@ namespace ChatApp.ViewModels
                     OnPropertyChanged("FilteredChats");
 
 
-                    //Remember, Chat will be removed from Pinned List when Archived.. and Vice Versa...
-                    //Fixed
+                   
                     if (ArchivedChats != null)
                     {
                         if (ArchivedChats.Contains(v))
@@ -666,7 +626,7 @@ namespace ChatApp.ViewModels
             }
         });
 
-        //To Pin Chat on Pin Button Click
+       
         protected ICommand _unPinChatCommand;
         public ICommand UnPinChatCommand => _unPinChatCommand ??= new RelayCommand(parameter =>
         {
@@ -674,19 +634,19 @@ namespace ChatApp.ViewModels
             {
                 if (!FilteredChats.Contains(v))
                 {
-                    //Add selected chat to Normal Unpinned chat list
+                   
                     Chats.Add(v);
                     FilteredChats.Add(v);
 
-                    //Restore position of chat before pinning so that when we unpin or unarchive we get it on same original position...
+                  
                     Chats.Move(Chats.Count-1, ChatPosition);
                     FilteredChats.Move(Chats.Count-1, ChatPosition);
 
-                    //Update
+                  
                     OnPropertyChanged("Chats");
                     OnPropertyChanged("FilteredChats");
 
-                    //Remove selected pinned chats list
+                   
                     PinnedChats.Remove(v);
                     FilteredPinnedChats.Remove(v);
                     OnPropertyChanged("PinnedChats");
@@ -696,9 +656,7 @@ namespace ChatApp.ViewModels
             }
         });
 
-        /// <summary>
-        /// Archive Chat Command
-        /// </summary>
+        
         protected ICommand _archiveChatCommand;
         public ICommand ArchiveChatCommand => _archiveChatCommand ??= new RelayCommand(parameter =>
         {
@@ -706,20 +664,20 @@ namespace ChatApp.ViewModels
             {
                 if (!ArchivedChats.Contains(v))
                 {
-                    //Remember, Chat will be removed from Pinned List when Archived.. and Vice Versa...                    
+                           
 
-                    //Add Chat in Archive List
+                    
                     ArchivedChats.Add(v);
                     v.ChatIsArchived = true;
                     v.ChatIsPinned = false;
 
-                    //Remove Chat from Pinned & Unpinned Chat List
+                   
                     Chats.Remove(v);
                     FilteredChats.Remove(v);
                     PinnedChats.Remove(v);
                     FilteredPinnedChats.Remove(v);
 
-                    //Update Lists
+                  
                     OnPropertyChanged("Chats");
                     OnPropertyChanged("FilteredChats");
                     OnPropertyChanged("PinnedChats");
@@ -728,9 +686,7 @@ namespace ChatApp.ViewModels
                 }
             }
         });
-        /// <summary>
-        /// UnArchive Chat Command
-        /// </summary>
+        
         protected ICommand _UnArchiveChatCommand;
         public ICommand UnArchiveChatCommand => _UnArchiveChatCommand ??= new RelayCommand(parameter =>
         {
@@ -772,7 +728,7 @@ namespace ChatApp.ViewModels
 
 
                 if (_isConversationSearchBoxOpen == false)
-                    //Clear Search Box
+                   
                     SearchConversationText = string.Empty;
                 OnPropertyChanged("IsConversationSearchBoxOpen");
                 OnPropertyChanged("SearchConversationText");
@@ -785,26 +741,24 @@ namespace ChatApp.ViewModels
             get => mConversations;
             set
             {
-                //To Change the list
+               
                 if (mConversations == value)
                     return;
 
-                //To Update the list
+               
                 mConversations = value;
 
-                //Updating filtered chats to match
+               
                 FilteredConversations = new ObservableCollection<ChatConversation>(mConversations);
                 OnPropertyChanged("Conversations");
                 OnPropertyChanged("FilteredConversations");
             }
         }
 
-        /// <summary>
-        /// Filter Conversation
-        /// </summary>
+       
         public ObservableCollection<ChatConversation> FilteredConversations { get; set; }
 
-        //We will use this message text to transfer the send message value to our conversation body
+       
         protected string messageText;
         public string MessageText
         {
@@ -824,14 +778,14 @@ namespace ChatApp.ViewModels
             set
             {
 
-                //checked if value is different
+                
                 if (mSearchConversationText == value)
                     return;
 
-                //Update Value
+              
                 mSearchConversationText = value;
 
-                //if search text is empty restore messages
+              
                 if (string.IsNullOrEmpty(SearchConversationText))
                     SearchInConversation();
             }
@@ -856,7 +810,7 @@ namespace ChatApp.ViewModels
 
 
                 if (_isSearchConversationBoxOpen == false)
-                    //Clear Search Box
+                  
                     SearchConversationText = string.Empty;
                 OnPropertyChanged("IsSearchConversationBoxOpen");
                 OnPropertyChanged("SearchConversationText");
@@ -877,8 +831,7 @@ namespace ChatApp.ViewModels
 
         void LoadChatConversation(ChatListData chat)
         {
-            //Since the conversation data is big i will be using database containing contact details & conversations instead...
-            //        i will provide you with database file link in Description
+         
             if (connection.State == System.Data.ConnectionState.Closed)
                 connection.Open();
             if (Conversations == null)
@@ -892,16 +845,7 @@ namespace ChatApp.ViewModels
                 {
                     while (reader.Read())
                     {
-                        // to set date format 
-                        // Like this Jun 15, 01:15 PM = MMM dd, hh:mm tt
-                        // We used Ternary Operator ('?:') for condition here
-                        //this is how it works:
-                        //Condition ? True : False
-
-                        //Like if(condition)
-                        //        true;
-                        //     else
-                        //        false;
+                       
 
                         string MsgReceivedOn = !string.IsNullOrEmpty(reader["MsgReceivedOn"].ToString()) ?
                             Convert.ToDateTime(reader["MsgReceivedOn"].ToString()).ToString("MMM dd, hh:mm tt") : "";
@@ -927,50 +871,50 @@ namespace ChatApp.ViewModels
                     }
                 }
             }
-            //Reset reply message text when the new chat is fetched
+          
             MessageToReplyText = string.Empty;
             OnPropertyChanged("MessageToReplyText");
         }
 
         void SearchInConversation()
         {
-            //To avoid re searching same text again
+           
             if ((string.IsNullOrEmpty(LastSearchConversationText) && string.IsNullOrEmpty(SearchConversationText)) || string.Equals(LastSearchConversationText, SearchConversationText))
                 return;
 
-            //If searchbox is empty or Conversations is null pr chat cound less than 0
+         
             if (string.IsNullOrEmpty(SearchConversationText) || Conversations == null || Conversations.Count <= 0)
             {
                 FilteredConversations = new ObservableCollection<ChatConversation>(Conversations ?? Enumerable.Empty<ChatConversation>());
                 OnPropertyChanged("FilteredConversations");
 
-                //Update Last search Text
+             
                 LastSearchConversationText = SearchConversationText;
 
                 return;
             }
 
-            //Now, to find all Conversations that contain the text in our search box
+           
 
             FilteredConversations = new ObservableCollection<ChatConversation>(
                 Conversations.Where(chat => chat.ReceivedMessage.ToLower().Contains(SearchConversationText) || chat.SentMessage.ToLower().Contains(SearchConversationText)));
             OnPropertyChanged("FilteredConversations");
 
-            //Update Last search Text
+           
             LastSearchConversationText = SearchConversationText;
         }
 
         public void CancelReply()
         {
             IsThisAReplyMessage = false;
-            //Reset Reply Message Text
+           
             MessageToReplyText = string.Empty;
             OnPropertyChanged("MessageToReplyText");
         }
 
         public void SendMessage()
         {
-            //Send message only when the textbox is not empty..
+           
             if (!string.IsNullOrEmpty(MessageText))
             {
                 var conversation = new ChatConversation()
@@ -981,8 +925,7 @@ namespace ChatApp.ViewModels
                     MessageContainsReply = IsThisAReplyMessage
                 };
 
-                //My badd...
-                //Add message to converstion list
+               
                 FilteredConversations.Add(conversation);
                 Conversations.Add(conversation);
 
@@ -992,12 +935,12 @@ namespace ChatApp.ViewModels
                 UpdateChatAndMoveUp(FilteredPinnedChats, conversation);
                 UpdateChatAndMoveUp(ArchivedChats, conversation);
 
-                //Clear Message properties and textbox when message is sent
+              
                 MessageText = string.Empty;
                 IsThisAReplyMessage = false;
                 MessageToReplyText = string.Empty;               
 
-                //Update
+                
                 OnPropertyChanged("FilteredConversations");
                 OnPropertyChanged("Conversations");
                 OnPropertyChanged("MessageText");
@@ -1006,23 +949,23 @@ namespace ChatApp.ViewModels
             }
         }
 
-        //Move the chat contact on top when new message is sent or received
+       
         protected void UpdateChatAndMoveUp(ObservableCollection<ChatListData> chatList, ChatConversation conversation)
         {
-            //Check if the message sent is to the selected contact or not...
+           
             var chat = chatList.FirstOrDefault(x => x.ContactName == ContactName);
 
-            //if found.. then..
+           
             if (chat != null)
             {
-                //Update Contact Chat Last Message and Message Time..
+               
                 chat.Message = MessageText;
                 chat.LastMessageTime = conversation.MsgSentOn;
 
-                //Move Chat on top when new message is received/sent...
+               
                 chatList.Move(chatList.IndexOf(chat), 0);
 
-                //Update Collections
+              
                 OnPropertyChanged("Chats");
                 OnPropertyChanged("PinnedChats");
                 OnPropertyChanged("FilteredChats");
@@ -1033,9 +976,7 @@ namespace ChatApp.ViewModels
         #endregion
 
         #region Commands
-        /// <summary>
-        /// Search Command
-        /// </summary>
+        
         protected ICommand _openConversationSearchCommand;
         public ICommand OpenConversationSearchCommand
         {
@@ -1051,9 +992,7 @@ namespace ChatApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Clear Search Command
-        /// </summary>
+       
         protected ICommand _clearConversationSearchCommand;
         public ICommand ClearConversationSearchCommand
         {
@@ -1069,9 +1008,7 @@ namespace ChatApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Close Search Command
-        /// </summary>
+       
         protected ICommand _closeConversationSearchCommand;
         public ICommand CloseConversationSearchCommand
         {
@@ -1107,14 +1044,14 @@ namespace ChatApp.ViewModels
         {
             if (parameter is ChatConversation v)
             {
-                //if replying sender's message
+              
                 if (v.IsMessageReceived)
                     MessageToReplyText = v.ReceivedMessage;
-                //if replying own message
+                
                 else
                     MessageToReplyText = v.SentMessage;
 
-                //update
+              
                 OnPropertyChanged("MessageToReplyText");
 
                 //Set focus on Message Box when user clicks reply button
@@ -1179,9 +1116,7 @@ namespace ChatApp.ViewModels
         #endregion
 
         #region Commands
-        /// <summary>
-        /// Open ContactInfo Command
-        /// </summary>
+       
         protected ICommand _openContactInfoCommand;
         public ICommand OpenContactinfoCommand
         {
@@ -1197,9 +1132,7 @@ namespace ChatApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Open ContactInfo Command
-        /// </summary>
+       
         protected ICommand _closeontactInfoCommand;
         public ICommand CloseContactinfoCommand
         {
